@@ -13,47 +13,43 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 
 public class FormPage extends AndroidActions{
-
+	
 	AndroidDriver driver;
 	
 	public FormPage(AndroidDriver driver)
 	{
 		super(driver);
-		this.driver=driver;
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+		this.driver=driver;//this is used for current class instance
+		PageFactory.initElements(new AppiumFieldDecorator(driver), this);//Appiumfielddecorator is the class for constructing driver.findelement 
+
 	}
+	
 	
 	@AndroidFindBy(id="com.androidsample.generalstore:id/nameField")
 	private WebElement nameField;
-	//driver.findElement(By.id("com.androidsample.generalstore:id/nameField"));
 	
-	@AndroidFindBy(xpath="//android.widget.RadioButton[@text='Male']")
+	@AndroidFindBy(id="com.androidsample.generalstore:id/radioMale")
 	private WebElement maleOption;
-	//driver.findElement(By.xpath("//android.widget.RadioButton[@text='Male']"));
-
 	
-	@AndroidFindBy(xpath="//android.widget.RadioButton[@text='Female']")
+	@AndroidFindBy(id="com.androidsample.generalstore:id/radioFemale")
 	private WebElement femaleOption;
-	
-	@AndroidFindBy(id="com.androidsample.generalstore:id/spinnerCountry")
-	private WebElement countryField;
-	
 	
 	
 	@AndroidFindBy(id="com.androidsample.generalstore:id/btnLetsShop")
 	private WebElement submitButton;
 	
-	@AndroidFindBy(id="com.androidsample.generalstore:id/toolbar_title")
-	private WebElement formPageTitle;
 	
+	@AndroidFindBy(id="com.androidsample.generalstore:id/spinnerCountry")
+	private WebElement countryField;
 	
 	public void preLoadFormPage()
-	
 	
 	{
 		//Activity activity = new Activity("com.androidsample.generalstore","com.androidsample.generalstore.SplashActivity");
@@ -61,42 +57,38 @@ public class FormPage extends AndroidActions{
 			    "intent", "com.androidsample.generalstore/com.androidsample.generalstore.SplashActivity"
 			));
 	}
-
-	
 	
 	public void setNameField(String name)
 	{
 		nameField.sendKeys(name);
 		driver.hideKeyboard();
-
 	}
 	
 	public void setGender(String gender)
 	{
-		if (gender.contains("Male"))
+		if(gender.equals("Male"))
 			maleOption.click();
 		else
-			femaleOption.click();
-			
+			femaleOption.click();		
 	}
 	
+	
+	public void submitForm() throws InterruptedException
+	{
+		submitButton.click();
+		Thread.sleep(2000);
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		Thread.sleep(2000);
+		
+		//return new ProductCatalogue(driver);
+	}
+
 	public void selectCountry(String country)
 	{
-		//AppiumUtils appiumActions = new AppiumUtils();
-		//appiumActions.waitForElement(formPageTitle,"General Store", driver);
-		
 		countryField.click();
 		scrollText(country);
 		driver.findElement(By.xpath("//android.widget.TextView[@text='"+country+"']")).click();
-		
 	}
-	
-	public ProductCatalogue submitForm()
-	{
-		submitButton.click();
-		return new ProductCatalogue(driver);
-
-	}
-	
-	
 }
+	
+

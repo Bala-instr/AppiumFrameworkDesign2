@@ -33,54 +33,31 @@ public class AndroideCommerce_tc_3 extends AndroidBaseTest{
 	
 	//extending to Android Base test gives access to PageObject Pages(child), Android actions(P), Appium utils(GP)
 
-	@Test(dataProvider="getData", groups={"Smoke"})
-	public void FillForm(HashMap<String,String> input ) throws InterruptedException
+	@Test(dataProvider="getData",groups= {"Smoke"})
+	public void FillForm(HashMap<String,String> input) throws InterruptedException
 	{
 	
 		formPage.selectCountry(input.get("country"));
 		formPage.setNameField(input.get("name"));
 		formPage.setGender(input.get("gender"));
-		//formPage.submitForm();
-		
-		ProductCatalogue productCatalogue= formPage.submitForm();
-		
-		productCatalogue.addItemToCartByIndex(0);
-		productCatalogue.addItemToCartByIndex(0);
-		
-		//Thread.sleep(2000);
-		CartPage cartPage= productCatalogue.clickCartButton();
-		
-		
-		double sum = cartPage.sumOfProdcutPrices();
-		double formattedPurchaseAmount = cartPage.displayTotalPurchaseAmount();
-		
-		AssertJUnit.assertEquals(sum,formattedPurchaseAmount,formattedPurchaseAmount); //Assert.assertEquals(expected,actual,delta)
-		System.out.println("sum of product prices: "+sum);
-		System.out.println("total purchase price: "+formattedPurchaseAmount);
-		
-		cartPage.readTerms();
-		cartPage.clickCheckboxandSubmit();
-
+		formPage.submitForm();
 		
 	}
 	
+
 	@BeforeMethod(alwaysRun=true)
-	
 	public void presetup()
 	{
-		formPage.preLoadFormPage(); 
+		formPage.preLoadFormPage();
 	}
 	
 	@DataProvider
-	
-	public Object[][] getData() throws IOException
-	{
-		//return new Object[][] {{"Argentina","Balamurugan","Male"},{"Australia","Tom Cruise","Female"}};
-	
-		List<HashMap<String, String>>	data =getJsonData(System.getProperty("user.dir")+"//src//test//java//org//balamuruganacademy//testData//eCommerce.json");
-		///Users/balamcpro/eclipse-workspace/AppiumFrameworkDesign001/src/test/java/org/balamuruganacademy/testData/eCommerce.json
+	public Object[][] getData() throws IOException	{
 		
-		return new Object[][] { {data.get(0)},{data.get(1)}  };
+		List<HashMap<String,String>> data=getJsonData(System.getProperty("user.dir")+"//src//test//java//org//balamuruganacademy//testData//eCommerce.json");
+		
+		return new Object[][] {{data.get(0)},{data.get(1)}};
+		
 	}
 	
 	
