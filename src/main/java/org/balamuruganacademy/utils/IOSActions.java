@@ -54,5 +54,12 @@ public class IOSActions extends AppiumUtils{
 		driver.executeScript("mobile:scroll", params);
 	}
 
+	public void Scroll(WebElement ele)
+	{
 	
+		Map<String,Object>params = new HashMap<>();
+		params.put("direction","down");
+		params.put("element", ((RemoteWebElement)ele).getId());
+		driver.executeScript("mobile:scroll", params);
+	}
 }
