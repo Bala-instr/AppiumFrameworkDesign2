@@ -31,9 +31,18 @@ public class IOSBasics extends IOSBaseTest{
 		//Appium code -> Web Driver Agent-> IOS Apps
 	
 		
-		homePage.tapAlertViews();
+		AlertViews alertViews=homePage.tapAlertViews();
 		
+		String alertViewsTitle=alertViews.alertViewsPageTitle();
 		
+		assertEquals(alertViewsTitle, "Alert Views");
+		
+
+		alertViews.fillTextEntry("Hello World");
+		
+		assertEquals(alertViews.getconfirmCancelSheetTitle(),"A message should be a short, complete sentence.");
+		
+		alertViews.tapconfirmButton();
 		
 	}
  

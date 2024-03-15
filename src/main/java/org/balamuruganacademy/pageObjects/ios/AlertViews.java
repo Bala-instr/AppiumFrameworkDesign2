@@ -19,39 +19,40 @@ public class AlertViews extends IOSActions{
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	}
 	
-	@iOSXCUITFindBy(accessibility="Alert Views")
-	private WebElement alertViews;
-	
-	@iOSXCUITFindBy(iOSClassChain="**/XCUIElementTypeStaticText[`label=='Text Entry'`]")
+	@iOSXCUITFindBy(accessibility="Text Entry")
 	private WebElement textEntryMenu;
 	
-	@iOSXCUITFindBy(iOSClassChain="**/XCUIElementTypeTextField")
+	@iOSXCUITFindBy(iOSClassChain="**/XCUIElementTypeStaticText[`name=='Alert Views'`]")
+	private WebElement alertViews;
+	
+	@iOSXCUITFindBy(className="XCUIElementTypeTextField")
 	private WebElement enterValueTextEntry;
 	
 	@iOSXCUITFindBy(accessibility="OK")
 	private WebElement textEntryOK;
 	
-	@iOSXCUITFindBy(iOSNsPredicate="type == 'XCUIElementTypeStaticText' AND value ENDSWITH[c] 'm / Cancel'")
+	@iOSXCUITFindBy(iOSNsPredicate="name == 'Confirm / Cancel'")
 	private WebElement confirmCancelMenu;
 	
-	@iOSXCUITFindBy(iOSNsPredicate="type =='XCUIElementTypeStaticText' AND value BEGINSWITH 'A message'")
+	@iOSXCUITFindBy(accessibility="A message should be a short, complete sentence.")
 	private WebElement confirmCancelSheetTitle;
 	
-	@iOSXCUITFindBy(iOSNsPredicate="name == 'Confirm'")
+	@iOSXCUITFindBy(iOSClassChain="**/XCUIElementTypeButton[`name == 'Confirm'`]")
 	private WebElement confirmButton;
 	
-
-	
-	
-	
-	public void fillTextEntry(String inputText)
+	public String alertViewsPageTitle()
 	{
-		textEntryMenu.click();
-		textEntryMenu.sendKeys(inputText);
-		textEntryOK.click();
+		return alertViews.getText();
+
 	}
 	
-
+	public void fillTextEntry(String input)
+	{
+		textEntryMenu.click();
+		enterValueTextEntry.sendKeys(input);
+		textEntryOK.click();
+		
+	}
 	
 	public String getconfirmCancelSheetTitle()
 	{
@@ -59,11 +60,8 @@ public class AlertViews extends IOSActions{
 		return confirmCancelSheetTitle.getText();
 	}
 	
-
 	public void tapconfirmButton()
 	{
 		confirmButton.click();
 	}
-	
-	
 }

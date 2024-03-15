@@ -23,9 +23,10 @@ public class HomePage extends IOSActions{
 	@iOSXCUITFindBy(accessibility="Alert Views")
 	private WebElement alertViewsMenu;
 
-	public void tapAlertViews()
+	public AlertViews tapAlertViews()
 	{
 		alertViewsMenu.click();
+		return new AlertViews(driver);
 	}
 }
  
