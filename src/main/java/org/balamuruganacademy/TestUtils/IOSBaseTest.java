@@ -32,11 +32,44 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
 public class IOSBaseTest extends AppiumUtils{
-
-
-test
-		
+	
+	public IOSDriver driver;
+	public AppiumDriverLocalService service;
+	public HomePage homePage;
 	
 
+	@BeforeClass
+	public void ConfigureAppium() throws IOException
+	{
+		
+		Properties prop = new Properties();
+		FileInputStream fis= new FileInputStream(System.getProperty("user.dir")+"//src//main//java//org//balamuruganacademy//resources//data.properties");
+		prop.load(fis);	
+		
+		String ipAddress=prop.getProperty("ipAddress");
+		Integer port=Integer.parseInt(prop.getProperty("port"));
+		
+		service=startAppiumServer(ipAddress,port);
+		
+		XCUITestOptions options= new XCUITestOptions();
+		options.setDeviceName(prop.getProperty("iPhoneDeviceName"));
+		options.setApp(System.getProperty("user.dir")+"//src//test//java//org//balamuruganacademy//resources//UIKitCatalog.app");
+		options.setPlatformVersion(prop.getProperty("iPhonePlatformVersion"));
+		options.setWdaLaunchTimeout(Duration.ofSeconds(20));
+		
+		driver = new IOSDriver(service.getUrl(),options);
+		
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+		
+		homePage = new HomePage(driver);
+	}
+	
+	@AfterClass
+	public void tearDown()
+	{
+		driver.quit();
+		service.stop();
 	}
 
+}

@@ -10,9 +10,9 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class HomePage extends IOSActions{
+	
+	public IOSDriver driver;
 
-	IOSDriver driver;
-	public AlertViews alertViews;
 	public HomePage(IOSDriver driver)
 	{
 		super(driver);
@@ -22,12 +22,10 @@ public class HomePage extends IOSActions{
 	
 	@iOSXCUITFindBy(accessibility="Alert Views")
 	private WebElement alertViewsMenu;
-	
-	public AlertViews tapAlertViews()
+
+	public void tapAlertViews()
 	{
 		alertViewsMenu.click();
-		return new AlertViews(driver);
 	}
-
-	
 }
+ 
